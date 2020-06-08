@@ -23,7 +23,6 @@ class TopicsController extends AdminController
 
     public function index(Content $content)
     {
-        (new TranslateAnswers())->handle();
         return $content
             ->header('话题')
             ->body($this->grid());
