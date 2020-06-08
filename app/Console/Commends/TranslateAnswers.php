@@ -68,7 +68,7 @@ class TranslateAnswers extends Command
                 $answer->content = preg_replace('/class="(.*?)"/', '', $answer->content);
                 Answers::where('id', $answer->id)->update(['content' => $answer->content]);
             }
-
+            Answers::where('id', $answer->id)->update(['command' => 1]); //标记为已执行翻译任务
             $translateResult = '';
             $j = 2000;  //API翻译长度限制  2000个汉字
             $i = 0;
