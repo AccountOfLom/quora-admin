@@ -28,7 +28,7 @@ class TranslateAnswers extends Command
         try {
             set_time_limit(0);
             $client = new Baidu();
-            $answer = Answers::where('translated', 0)->first();
+            $answer = Answers::where(['translated' => 0, 'command' => 0])->first();
             if (!$answer) {
                 return false;
             }
@@ -97,6 +97,7 @@ class TranslateAnswers extends Command
             Answers::where('id', $answer->id)->update(['translated' => 1, 'content_cn' => $translateResult]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            echo 'translate answers ' . $e->getMessage();
         }
         echo 'translate answers success';
     }
