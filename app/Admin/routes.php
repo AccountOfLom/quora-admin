@@ -17,4 +17,7 @@ Route::group([
     //话题
     $router->resource('topics', TopicsController::class);
 
+    //问题
+    $router->resource('questions', QuestionsController::class);
+
 });
