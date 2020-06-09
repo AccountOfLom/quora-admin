@@ -3,6 +3,8 @@
 
 namespace App\Server\Translate;
 
+use Illuminate\Support\Facades\Log;
+
 /**
  * 百度翻译
  * Class Baidu
@@ -38,6 +40,7 @@ class Baidu
         $ret = $this->call($url, $args);
         $ret = json_decode($ret, true);
         if (isset($ret['error_code'])) {
+            Log::error('百度翻译失败：' . json_encode($ret, JSON_UNESCAPED_UNICODE));
             return '';
         }
         return $ret['trans_result'][0]['dst'];
