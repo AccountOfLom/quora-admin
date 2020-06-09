@@ -38,30 +38,18 @@ class SeekQuestions extends Command
      */
     public function handle()
     {
-        $topics = Topics::where('status', 1)->get();
-        $currentTopic = '';
-        foreach ($topics as $topic) {
-            //查当天没有爬取的话题
-            $seeked = DB::table('questions')
-                ->where('topic', $topic['topic'])
-                ->whereDate('created_at', date('Y-m-d'))
-                ->exists();
-            if (!$seeked) {
-                $currentTopic = $topic['topic'];
-                break;
-            }
-        }
-        if (!$currentTopic) {
+        $topic = Topics::where('status', 1)->where('seeked_at', '<', time() - 3600)->first();  //查１小时内没有爬取的话题
+        if (!$topic) {
             return false;
         }
-
         $nodePort = env('NODE_HTTP_PORT');
-        $url = '127.0.0.1:' . $nodePort . '/questions?topic=' . $currentTopic;
+        $url = '127.0.0.1:' . $nodePort . '/questions?topic=' . $topic->topic;
         $request = new \GuzzleHttp\Psr7\Request('GET', $url);
         $promise = (new Client())->sendAsync($request)->then(function ($response) {
             echo 'I completed! ' . $response->getBody();
         });
         $promise->wait();
+        Topics::where('id', $topic->id)->update(['seeked_at' => time()]);
         echo 'seek questions success';
     }
 }
