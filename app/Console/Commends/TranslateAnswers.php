@@ -91,10 +91,11 @@ class TranslateAnswers extends Command
                 $i += $posIndex;
                 sleep(1);
             }
-
-            $translateResult = str_replace('”', '"', $translateResult);   //引号转回英文标点,不然html会无法解析
-            $translateResult = str_replace('“', '" ', $translateResult);
-            Answers::where('id', $answer->id)->update(['translated' => 1, 'content_cn' => $translateResult]);
+            if ($translateResult) {
+                $translateResult = str_replace('”', '"', $translateResult);   //引号转回英文标点,不然html会无法解析
+                $translateResult = str_replace('“', '" ', $translateResult);
+                Answers::where('id', $answer->id)->update(['translated' => 1, 'content_cn' => $translateResult]);
+            }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             echo 'translate answers ' . $e->getMessage();

@@ -4,10 +4,14 @@
 namespace App\Models;
 
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Questions extends Model
+class Questions extends Base
 {
     use SoftDeletes;
+
+    public function answers()
+    {
+        return $this->hasMany(Answers::class, 'question_id', 'id');
+    }
 }

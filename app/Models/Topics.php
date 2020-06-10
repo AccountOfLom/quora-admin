@@ -4,7 +4,6 @@
 namespace App\Models;
 
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Topics
  * @package App\Models
  */
-class Topics extends Model
+class Topics extends Base
 {
     use SoftDeletes;
 }
