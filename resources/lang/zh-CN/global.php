@@ -21,6 +21,11 @@ return [
         'roles'                 => '角色',
         'path'                  => '路径',
         'input'                 => '输入',
+
+        /*********    字段翻译      **********/
+        'status'                => '显示状态',
+        'article_released'      => '发到公众号',
+        'revised'               => '已润色',
     ],
     'labels' => [
         'list'     => '列表',
