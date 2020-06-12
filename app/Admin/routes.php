@@ -20,4 +20,10 @@ Route::group([
     //问题
     $router->resource('questions', QuestionsController::class);
 
+    //回答
+    $router->resource('answers', AnswersController::class);
+
+    //回答详情
+    $router->get('answer-details/{questionID}', 'AnswersController@wxHtml');
+
 });

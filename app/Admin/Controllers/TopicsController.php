@@ -5,7 +5,6 @@ namespace App\Admin\Controllers;
 
 
 use App\Admin\Repositories\Topics;
-use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
@@ -17,7 +16,7 @@ use Dcat\Admin\Show;
  * Class TopicsController
  * @package App\Admin\Controllers
  */
-class TopicsController extends AdminController
+class TopicsController extends BaseController
 {
 
     public function index(Content $content)

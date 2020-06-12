@@ -7,7 +7,6 @@ use App\Admin\Repositories\Questions;
 use App\Models\Answers;
 use App\Models\Topics;
 use App\Models\Questions as QuestionsModel;
-use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
@@ -20,7 +19,7 @@ use Illuminate\Support\Facades\DB;
  * Class QuestionsController
  * @package App\Admin\Controllers
  */
-class QuestionsController extends AdminController
+class QuestionsController extends BaseController
 {
 
     public function index(Content $content)
@@ -51,21 +50,30 @@ class QuestionsController extends AdminController
             $grid->topic('话题')->display(function ($topic) {
                 return Topics::where('topic', $topic)->value('topic_cn');
             })->width('80px');
-            $grid->text('问题')->width('360px');
+            $grid->text('问题')->width('300px');
             $grid->text_cn('问题 CN')->display(function ($text_cn) {
                 return $text_cn ? $text_cn : '点击编辑';
-            })->editable(true)->width('360px');
+            })->editable(true)->width('300px');
             $grid->link('Quora')->display(function ($link) {
                 return "<a class='text-info' href='https://www.quora.com{$link}' target='_blank'>前往Quora</a>";
             });
             $grid->column('回答')->display(function () {
                 $count = Answers::where('question_id', $this->id)->count();
                 $translatedCount = Answers::where(['question_id' => $this->id, 'translated' => 1])->count();
-                return '<p>回答数：<span class="text-primary">'. $count .'</span></p>
-                        <p>已翻译：<span class="text-success">'. $translatedCount .'</span></p>';
+                if ($translatedCount) {
+                    $html = '<span>
+                            <a href="/admin/answer-details/'. $this->id .'" target="_blank">
+                                <button style="margin-bottom: 5px;" type="button" class="btn btn-primary btn-sm">查看</button>
+                            </a>
+                        </span>';
+                } else {
+                    $html = '<span><button disabled style="margin-bottom: 5px;" type="button" class="btn btn-primary btn-sm">查看</button></span>';
+                }
+                return $html . '<br/><span>回答数：<span class="text-primary">'. $count .'</span></span><br/>
+                        <span>已翻译：<span class="text-success">'. $translatedCount .'</span></span>';
             })->width('100px');
-            $grid->switch_group->switchGroup(['status', 'article_released', 'revised'])->width('150px');
-            $grid->created_at;
+            $grid->switch_group->switchGroup(['revised', 'article_released', 'status'])->width('150px');
+            $grid->created_at('爬取时间')->width('80px');
         });
     }
 
