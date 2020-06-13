@@ -122,6 +122,7 @@ class AnswersHtml
      */
     protected static function userInfo($answer)
     {
+        $userCredentialCN = empty($answer['user_credential_cn']) ? '不详' : $answer['user_credential_cn'];
         $userInfoHtml = '<section style="margin-top: 5px;white-space: normal;">
                   <section style="width: 578px;display: flex;">
                     <section>
@@ -137,7 +138,7 @@ class AnswersHtml
                           <br>
                         </p>
                         <p style="margin-left: 8px;text-align: left;font-size: 15px;color: rgb(0, 0, 0);">
-                          <span style="background-color: rgb(255, 255, 255);color: rgb(136, 136, 136);font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen-Sans, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, sans-serif;letter-spacing: 1px;">' . $answer['user_info_cn'] . '
+                          <span style="background-color: rgb(255, 255, 255);color: rgb(136, 136, 136);font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen-Sans, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, sans-serif;letter-spacing: 1px;">' . $userCredentialCN . '
                             </span>
                         </p>
                       </section>
