@@ -43,7 +43,7 @@ class SeekQuestions extends Command
             return false;
         }
         $nodePort = env('NODE_HTTP_PORT');
-        $url = '127.0.0.1:' . $nodePort . '/questions?topic=' . $topic->topic;
+        $url = '127.0.0.1:' . $nodePort . '/questions?topic=' . $topic->topic . '&keywords=' . $topic->keywords ?? '';
         $request = new \GuzzleHttp\Psr7\Request('GET', $url);
         $promise = (new Client())->sendAsync($request)->then(function ($response) {
             echo 'I completed! ' . $response->getBody();
