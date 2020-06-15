@@ -33,6 +33,7 @@ class TopicsController extends BaseController
             $grid->id('ID')->sortable();
             $grid->topic('话题');
             $grid->topic_cn('话题 CN');
+            $grid->keywords('关键词');
             $grid->status('爬取？')->switch();
             $grid->created_at;
         });
@@ -59,6 +60,7 @@ class TopicsController extends BaseController
                 $show->id('ID');
                 $show->topic('话题');
                 $show->topic_cn('话题 CN');
+                $show->keywords('关键词');
                 $show->statue('爬取 ?')->as(function ($statue) {
                     return $statue ? '是' : '否';
                 });
@@ -73,6 +75,7 @@ class TopicsController extends BaseController
             $form->display('id', 'ID');
             $form->text('topic', '话题');
             $form->text('topic_cn', '话题 CN');
+            $form->text('keywords', '关键词')->help("问题关键词匹配，可填多个，用　','号隔开");
             $form->switch('status', '爬取 ？');
         });
         return $form;
