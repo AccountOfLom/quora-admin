@@ -5,29 +5,29 @@ namespace App\Console\Commends;
 
 use App\Models\Answers;
 use App\Models\Questions;
-use App\Server\Translate\Baidu;
+use App\Server\Translate\Youdao;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
 /**
  * 翻译回答
- * Class SeekQuestions
+ * Class TranslateYoudao
  * @package App\Console\Commends
  */
-class TranslateAnswers extends Command
+class TranslateYoudao extends Command
 {
 
-    protected $signature = 'translate-answers';
+    protected $signature = 'translate-youdao';
 
 
-    protected $description = 'translate answers';
+    protected $description = 'translate youdao';
 
 
     public function handle()
     {
         try {
             set_time_limit(0);
-            $client = new Baidu();
+            $client = new Youdao();
             $answer = Answers::where(['translated' => 0, 'command' => 0])->first();
             if (!$answer) {
                 return false;
@@ -98,8 +98,8 @@ class TranslateAnswers extends Command
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            echo 'translate answers ' . $e->getMessage();
+            echo 'translate youdao ' . $e->getMessage();
         }
-        echo 'translate answers success';
+        echo 'translate youdao success';
     }
 }
