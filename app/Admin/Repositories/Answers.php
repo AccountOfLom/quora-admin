@@ -20,9 +20,9 @@ class Answers extends EloquentRepository
     public function replaceImgElement($id)
     {
         $answer = AnswersModel::where('id', $id)->first();
-        if ($answer->image_fetched == 1) {
-            return true;
-        }
+//        if ($answer->image_fetched == 1) {
+//            return true;
+//        }
         $qiniu = new Qiniu();
         $answer->user_avatar = $qiniu->fetch($answer->user_avatar);
         $preg =  '/<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/i';

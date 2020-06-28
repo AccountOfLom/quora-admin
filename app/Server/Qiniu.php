@@ -45,13 +45,17 @@ class Qiniu
      */
     public function fetch($url)
     {
-        $image = 'quora/' . date('YmdHis') . uniqid();
-        $uploadMgr = new UploadManager();
-        list($ret, $error) = $uploadMgr->put($this->token, $image, file_get_contents($url));
-        if ($error) {
-            return $error;
+        try {
+            $image = 'quora/' . date('YmdHis') . uniqid();
+            $uploadMgr = new UploadManager();
+            list($ret, $error) = $uploadMgr->put($this->token, $image, file_get_contents($url));
+            if ($error) {
+                return $error;
+            }
+            return env('QINIU_DOMAIN') . '/' . $image;
+        } catch (\Exception $e) {
+            return $url;
         }
-        return env('QINIU_DOMAIN') . '/' . $image;
     }
 
 }
