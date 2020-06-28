@@ -98,6 +98,11 @@ class TranslateBaidu extends Command
             if ($translateResult) {
                 $translateResult = str_replace('”', '"', $translateResult);   //引号转回英文标点,不然html会无法解析
                 $translateResult = str_replace('“', '" ', $translateResult);
+
+                //处理翻译后偶发的， <img src=" 消失的问题
+                $domain = env('QINIU_DOMAIN');
+                $translateResult = str_replace(['<img src="' . $domain, '<img  src="' . $domain], $domain, $translateResult);
+                $translateResult = str_replace($domain, '<img src="' . $domain, $translateResult);
                 Answers::where('id', $answer->id)->update(['translated' => 1, 'content_cn' => $translateResult]);
             }
         } catch (\Exception $e) {
