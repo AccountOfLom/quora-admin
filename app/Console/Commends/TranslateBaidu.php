@@ -5,6 +5,7 @@ namespace App\Console\Commends;
 
 use App\Models\Answers;
 use App\Models\Questions;
+use App\Server\Qiniu;
 use App\Server\Translate\Baidu;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +33,7 @@ class TranslateBaidu extends Command
             if (!$answer) {
                 return false;
             }
+            (new \App\Admin\Repositories\Answers())->replaceImgElement($answer->id);
             $question = Questions::where('id', $answer->question_id)->first();
             if (!$question->text_cn) {
                 $textCN = $client->translate($question->text);

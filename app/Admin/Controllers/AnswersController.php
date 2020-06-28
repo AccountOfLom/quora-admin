@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 
 use App\Admin\Repositories\Answers;
+use App\Models\Questions;
 use App\Server\AnswersHtml;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -30,10 +31,11 @@ class AnswersController extends BaseController
     {
         $wxHtml = AnswersHtml::wx($questionID);
         $enHtml = AnswersHtml::en($questionID);
+        $question = Questions::where('id', $questionID)->first();
         return $content
             ->header('Dashboard')
             ->description('Description...')
-            ->body(view('admin.answers.wx-html', ['wxHtml' => $wxHtml, 'enHtml' => $enHtml]));
+            ->body(view('admin.answers.wx-html', ['title' => $question->text_cn, 'wxHtml' => $wxHtml, 'enHtml' => $enHtml]));
     }
 
     protected function grid()

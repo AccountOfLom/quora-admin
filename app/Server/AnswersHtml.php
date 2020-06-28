@@ -20,10 +20,9 @@ class AnswersHtml
     {
         $answers = (new Answers())->info($questionID);
         if (!$answers) {
-            return '';
+//            return '';
         }
         $html = self::header();
-        $domain = env('QINIU_DOMAIN');
         foreach ($answers as $answer) {
             $html .= self::userInfo($answer);
             $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $answer['content']);
@@ -34,7 +33,6 @@ class AnswersHtml
             $content = str_replace(['</ol>', '< /ol>', '</ol >'], self::olElementEnd(), $content);
             $content = str_replace(['<div>', '< div>', '<div >'], self::imgElementStart(), $content);
             $content = str_replace(['</div>', '</ div>', '</div >', '< /div>'], self::imgElementEnd(), $content);
-            $content = str_replace(['<img src="' . $domain, '<img  src="' . $domain, '<img src="' . $domain], self::imgElementEnd(), $content);
             $html .= $content;
             $html .= self::separate();
         }
@@ -53,8 +51,8 @@ class AnswersHtml
             return '';
         }
         $html = self::header();
-        $domain = env('QINIU_DOMAIN');
         foreach ($answers as $answer) {
+            (new \App\Admin\Repositories\Answers())->replaceImgElement($answer['id']);
             $html .= self::userInfo($answer);
             $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $answer['content_cn']);
             $content = str_replace(['</p>', '< /p>', '</p >', '</P>', '< /P>', '</P >'], self::pElementEnd(), $content);
@@ -64,7 +62,6 @@ class AnswersHtml
             $content = str_replace(['</ol>', '< /ol>', '</ol >'], self::olElementEnd(), $content);
             $content = str_replace(['<div>', '< div>', '<div >'], self::imgElementStart(), $content);
             $content = str_replace(['</div>', '</ div>', '</div >', '< /div>'], self::imgElementEnd(), $content);
-            $content = str_replace(['<img src="' . $domain, '<img  src="' . $domain, '<img src="' . $domain], self::imgElementEnd(), $content);
             $html .= $content;
             $html .= self::separate();
         }

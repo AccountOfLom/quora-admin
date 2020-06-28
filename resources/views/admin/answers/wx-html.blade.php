@@ -11,6 +11,7 @@
     <button id="save-btn" type="button" class="btn btn-info">保存</button>
 </div>
 <div class="container">
+    <h3>{{$title}}</h3>
     <div class="row clearfix">
         <div class="col-md-6 column">
             <script id="wx" style="width:100%;" name="wx_html" type="text/plain">{!! $wxHtml !!}</script>
