@@ -52,7 +52,6 @@ class AnswersHtml
         }
         $html = self::header();
         foreach ($answers as $answer) {
-            (new \App\Admin\Repositories\Answers())->replaceImgElement($answer['id']);
             $html .= self::userInfo($answer);
             $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $answer['content_cn']);
             $content = str_replace(['</p>', '< /p>', '</p >', '</P>', '< /P>', '</P >'], self::pElementEnd(), $content);

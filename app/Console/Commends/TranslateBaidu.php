@@ -29,11 +29,13 @@ class TranslateBaidu extends Command
         try {
             set_time_limit(0);
             $client = new Baidu();
-            $answer = Answers::where(['translated' => 0, 'command' => 0])->first();
+            $answer = Answers::where(['translated' => 0, 'command' => 0])->orderBy('id', 'desc')->first();
             if (!$answer) {
                 return false;
             }
+            //抓取图片到七牛云
             (new \App\Admin\Repositories\Answers())->replaceImgElement($answer->id);
+
             $question = Questions::where('id', $answer->question_id)->first();
             if (!$question->text_cn) {
                 $textCN = $client->translate($question->text);

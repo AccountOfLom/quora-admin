@@ -20,9 +20,9 @@ class Answers extends EloquentRepository
     public function replaceImgElement($id)
     {
         $answer = AnswersModel::where('id', $id)->first();
-//        if ($answer->image_fetched == 1) {
-//            return true;
-//        }
+        if ($answer->image_fetched == 1) {
+            return true;
+        }
         $qiniu = new Qiniu();
         $answer->user_avatar = $qiniu->fetch($answer->user_avatar);
         $preg =  '/<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/i';
@@ -34,18 +34,6 @@ class Answers extends EloquentRepository
                 }
                 $image = $qiniu->fetch($item);
                 $answer->content = str_replace($images[0][$index], '<img src="' . $image . '" />', $answer->content);
-            }
-        }
-        if ($answer->content_cn) {
-            preg_match_all($preg, $answer->content_cn, $images);
-            if (!empty($images[0])) {
-                foreach ($images[1] as $index => $item) {
-                    if (strpos($item, env('QINIU_DOMAIN')) !== false) {
-                        continue;
-                    }
-                    $image = $qiniu->fetch($item);
-                    $answer->content_cn = str_replace($item, $image, $answer->content_cn);
-                }
             }
         }
 
