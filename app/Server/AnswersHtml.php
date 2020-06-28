@@ -53,10 +53,6 @@ class AnswersHtml
         $html = self::header();
         foreach ($answers as $answer) {
             (new \App\Admin\Repositories\Answers())->replaceImgElement($answer['id']);
-            if (strpos('https://qph.fs.quoracdn.net', $answer['content_cn']) !== false) {
-                $answer['content_cn'] = (new \App\Admin\Repositories\Answers())->replaceContentCNImgElement($answer['id'], $answer['content_cn']);
-                \App\Models\Answers::where('id', $answer['id'])->update(['content_cn' => $answer['content_cn']]);
-            }
             $html .= self::userInfo($answer);
             $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $answer['content_cn']);
             $content = str_replace(['</p>', '< /p>', '</p >', '</P>', '< /P>', '</P >'], self::pElementEnd(), $content);
