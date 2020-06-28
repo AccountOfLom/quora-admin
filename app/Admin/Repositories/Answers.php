@@ -38,6 +38,20 @@ class Answers extends EloquentRepository
         return true;
     }
 
+    public function replaceContentCNImgElement($contentCN)
+    {
+        $qiniu = new Qiniu();
+        $preg =  '/<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/i';
+        preg_match_all($preg, $contentCN, $images);
+        if (!empty($images[0])) {
+            foreach ($images[1] as $index => $item) {
+                $image = $qiniu->fetch($item);
+                $contentCN = str_replace($item, $image, $contentCN);
+            }
+        }
+        return $contentCN;
+    }
+
     public function saveWxHtml($questionID, $html)
     {
         if (!$html) {
