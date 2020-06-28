@@ -39,15 +39,15 @@ class Youdao
         $salt = $this->create_guid();
         $args = array(
             'q' => $q,
-            'appKey' => self::$appKey,
+            'appKey' => $this->appKey,
             'salt' => $salt,
         );
         $args['from'] = 'auto';
-        $args['to'] = 'auto';
+        $args['to'] = 'zh-CHS';
         $args['signType'] = 'v3';
         $curtime = strtotime("now");
         $args['curtime'] = $curtime;
-        $signStr = self::$appKey . $this->truncate($q) . $salt . $curtime . self::$secKey;
+        $signStr = $this->appKey . $this->truncate($q) . $salt . $curtime . $this->secKey;
         $args['sign'] = hash("sha256", $signStr);
         $ret = $this->call(self::URL, $args);
         return $ret;
