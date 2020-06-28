@@ -46,7 +46,7 @@ class AnswersHtml
     {
         $html = (new Questions())->getWxHtml($questionID);
         if ($html) {
-            return $html;
+//            return $html;
         }
         $answers = (new Answers())->info($questionID);
         if (!$answers) {
