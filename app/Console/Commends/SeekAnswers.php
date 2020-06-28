@@ -43,7 +43,7 @@ class SeekAnswers extends Command
             ->whereNull('answers.id')
             ->select('questions.id', 'questions.link')
             ->get();
-        if (count($questions) < 5) {
+        if (count($questions) < 10) {
             return false;
         }
         $currentQuestion = current($questions->toArray());
