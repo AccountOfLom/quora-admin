@@ -24,7 +24,9 @@ class Answers extends EloquentRepository
             return true;
         }
         $qiniu = new Qiniu();
-        $answer->user_avatar = $qiniu->fetch($answer->user_avatar);
+        if (strpos($answer->user_avatar, env('QINIU_DOMAIN')) === false) {
+            $answer->user_avatar = $qiniu->fetch($answer->user_avatar);
+        }
         $preg =  '/<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/i';
         preg_match_all($preg, $answer->content, $images);
         if (!empty($images[0])) {
