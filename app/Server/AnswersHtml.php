@@ -20,7 +20,7 @@ class AnswersHtml
     {
         $answers = (new Answers())->info($questionID);
         if (!$answers) {
-//            return '';
+            return '';
         }
         $html = self::header();
         foreach ($answers as $answer) {
@@ -42,10 +42,6 @@ class AnswersHtml
 
     public static function wx($questionID)
     {
-        $html = (new Questions())->getWxHtml($questionID);
-        if ($html) {
-//            return $html;
-        }
         $answers = (new Answers())->info($questionID);
         if (!$answers) {
             return '';
