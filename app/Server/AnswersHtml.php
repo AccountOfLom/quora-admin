@@ -23,6 +23,7 @@ class AnswersHtml
             return '';
         }
         $html = self::header();
+        $domain = env('QINIU_DOMAIN');
         foreach ($answers as $answer) {
             $html .= self::userInfo($answer);
             $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $answer['content']);
@@ -33,6 +34,7 @@ class AnswersHtml
             $content = str_replace(['</ol>', '< /ol>', '</ol >'], self::olElementEnd(), $content);
             $content = str_replace(['<div>', '< div>', '<div >'], self::imgElementStart(), $content);
             $content = str_replace(['</div>', '</ div>', '</div >', '< /div>'], self::imgElementEnd(), $content);
+            $content = str_replace(['<img src="' . $domain, '<img  src="' . $domain, '<img src="' . $domain], self::imgElementEnd(), $content);
             $html .= $content;
             $html .= self::separate();
         }
@@ -51,6 +53,7 @@ class AnswersHtml
             return '';
         }
         $html = self::header();
+        $domain = env('QINIU_DOMAIN');
         foreach ($answers as $answer) {
             $html .= self::userInfo($answer);
             $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $answer['content_cn']);
@@ -61,11 +64,11 @@ class AnswersHtml
             $content = str_replace(['</ol>', '< /ol>', '</ol >'], self::olElementEnd(), $content);
             $content = str_replace(['<div>', '< div>', '<div >'], self::imgElementStart(), $content);
             $content = str_replace(['</div>', '</ div>', '</div >', '< /div>'], self::imgElementEnd(), $content);
+            $content = str_replace(['<img src="' . $domain, '<img  src="' . $domain, '<img src="' . $domain], self::imgElementEnd(), $content);
             $html .= $content;
             $html .= self::separate();
         }
         $html .= self::footer();
-        (new Questions())->saveWxHtml($questionID, $html);
         return $html;
     }
 

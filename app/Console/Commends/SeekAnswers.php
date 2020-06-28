@@ -37,13 +37,13 @@ class SeekAnswers extends Command
      */
     public function handle()
     {
-        //查没有答案数据的问题
+        //查回答数不足５的问题
         $questions = DB::table('questions')
             ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
             ->whereNull('answers.id')
             ->select('questions.id', 'questions.link')
             ->get();
-        if (count($questions) == 0) {
+        if (count($questions) < 5) {
             return false;
         }
         $currentQuestion = current($questions->toArray());

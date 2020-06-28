@@ -14,8 +14,14 @@ class Youdao
 {
     const CURL_TIMEOUT = 2000;
     const URL = "https://openapi.youdao.com/api";
-    const APP_KEY = '46dc01fadf199699';
-    const SEC_KEY = 'e1lwjd4KS0BhGC31bUPG4SrZR75WAJM2';
+    private $appKey;
+    private $secKey;
+
+    public function __construct()
+    {
+        $this->appKey = env('YOUDAO_APP_KEY');
+        $this->secKey = env('YOUDAO_SEC_KEY');
+    }
 
     public function translate($q)
     {
@@ -33,7 +39,7 @@ class Youdao
         $salt = $this->create_guid();
         $args = array(
             'q' => $q,
-            'appKey' => self::APP_KEY,
+            'appKey' => self::$appKey,
             'salt' => $salt,
         );
         $args['from'] = 'auto';
@@ -41,7 +47,7 @@ class Youdao
         $args['signType'] = 'v3';
         $curtime = strtotime("now");
         $args['curtime'] = $curtime;
-        $signStr = self::APP_KEY . $this->truncate($q) . $salt . $curtime . self::SEC_KEY;
+        $signStr = self::$appKey . $this->truncate($q) . $salt . $curtime . self::$secKey;
         $args['sign'] = hash("sha256", $signStr);
         $ret = $this->call(self::URL, $args);
         return $ret;
