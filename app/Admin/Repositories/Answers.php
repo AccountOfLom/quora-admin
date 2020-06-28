@@ -29,7 +29,7 @@ class Answers extends EloquentRepository
         preg_match_all($preg, $answer->content, $images);
         if (!empty($images[0])) {
             foreach ($images[1] as $index => $item) {
-                if (strpos(env('QINIU_DOMAIN'), $item) !== false) {
+                if (strpos($item, env('QINIU_DOMAIN')) !== false) {
                     continue;
                 }
                 $image = $qiniu->fetch($item);
@@ -40,7 +40,7 @@ class Answers extends EloquentRepository
             preg_match_all($preg, $answer->content_cn, $images);
             if (!empty($images[0])) {
                 foreach ($images[1] as $index => $item) {
-                    if (strpos(env('QINIU_DOMAIN'), $item) !== false) {
+                    if (strpos($item, env('QINIU_DOMAIN')) !== false) {
                         continue;
                     }
                     $image = $qiniu->fetch($item);
