@@ -40,16 +40,24 @@ class AnswersHtml
     }
 
 
-    public static function wx($questionID)
+    public static function wx($questionID, $channel)
     {
+        $contentField = [
+            'baidu'     => 'content_cn',
+            'youdao'    => 'content_youdao'
+        ];
         $answers = (new Answers())->info($questionID);
         if (!$answers) {
             return '';
         }
         $html = self::header();
         foreach ($answers as $answer) {
+            $content = $answer[$contentField[$channel]];
+            if (!$content) {
+                return '';
+            }
             $html .= self::userInfo($answer);
-            $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $answer['content_cn']);
+            $content = str_replace(['<p>', '< p>', '<p >', '<P>', '< P>', '<P >'], self::pElementStart(), $content);
             $content = str_replace(['</p>', '< /p>', '</p >', '</P>', '< /P>', '</P >'], self::pElementEnd(), $content);
             $content = str_replace(['<ul>', '< ul>', '<ul >'], self::ulElementStart(), $content);
             $content = str_replace(['</ul>', '< /ul>', '</ul >'], self::ulElementEnd(), $content);

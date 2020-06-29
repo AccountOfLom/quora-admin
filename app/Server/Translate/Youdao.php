@@ -42,7 +42,7 @@ class Youdao
             'appKey' => $this->appKey,
             'salt' => $salt,
         );
-        $args['from'] = 'auto';
+        $args['from'] = 'en';
         $args['to'] = 'zh-CHS';
         $args['signType'] = 'v3';
         $curtime = strtotime("now");

@@ -29,13 +29,18 @@ class AnswersController extends BaseController
 
     public function wxHtml($questionID, Content $content)
     {
-        $wxHtml = AnswersHtml::wx($questionID);
-        $enHtml = AnswersHtml::en($questionID);
+        $enContent = AnswersHtml::en($questionID);
+        $baiduContent = AnswersHtml::wx($questionID, 'baidu');
+        $youdaoContent = AnswersHtml::wx($questionID, 'youdao');
         $question = Questions::where('id', $questionID)->first();
         return $content
-            ->header('Dashboard')
-            ->description('Description...')
-            ->body(view('admin.answers.wx-html', ['title' => $question->text_cn, 'wxHtml' => $wxHtml, 'enHtml' => $enHtml]));
+            ->header('回答集合')
+            ->body(view('admin.answers.wx-html', [
+                'title' => $question->text_cn,
+                'baiduContent' => $baiduContent,
+                'youdaoContent' => $youdaoContent,
+                'enContent' => $enContent
+            ]));
     }
 
     protected function grid()
