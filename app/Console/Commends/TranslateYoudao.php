@@ -47,7 +47,7 @@ class TranslateYoudao extends Command
     public function handle()
     {
         try {
-            $answer = Answers::whereNull('content_youdao')->orderBy('id', 'desc')->first();
+            $answer = Answers::where('image_fetched', 1)->whereNull('content_youdao')->orderBy('id', 'desc')->first();
             if (!$answer) {
                 return false;
             }

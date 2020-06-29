@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
         'seek-answers'      => SeekAnswers::class,
         'translate-baidu'   => TranslateBaidu::class,
         'translate-youdao'   => TranslateYoudao::class,
-//        'image-fetched'     => ImageFetched::class,
+        'image-fetched'     => ImageFetched::class,
     ];
 
     /**
@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('seek-answers')->everyTenMinutes();   //根据问题爬取回答   １０分钟／1次
         $schedule->command('translate-baidu')->everyMinute();   //翻译回答   １分钟／1次
         $schedule->command('translate-youdao')->everyMinute();   //翻译回答   １分钟／1次
-//        $schedule->command('image-fetched')->everyMinute();   //抓取图片到七牛云   １分钟／1次
+        $schedule->command('image-fetched')->everyMinute();   //抓取图片到七牛云   １分钟／1次
     }
 
     /**

@@ -29,7 +29,7 @@ class TranslateBaidu extends Command
         try {
             set_time_limit(0);
             $client = new Baidu();
-            $answer = Answers::where(['translated' => 0, 'command' => 0])->orderBy('id', 'desc')->first();
+            $answer = Answers::where(['translated' => 0, 'command' => 0, 'image_fetched' => 1])->orderBy('id', 'desc')->first();
             if (!$answer) {
                 return false;
             }
