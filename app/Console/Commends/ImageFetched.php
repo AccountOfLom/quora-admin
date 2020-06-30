@@ -29,6 +29,8 @@ class ImageFetched extends Command
         if (!$answer) {
             return true;
         }
+        $answer->content = preg_replace('/class="(.*?)"/', '', $answer->content); //删除class
+        $answer->content = preg_replace('/<a .*?a>/is', '', $answer->content); //删除a链接
         $qiniu = new Qiniu();
         if (strpos($answer->user_avatar, env('QINIU_DOMAIN')) === false) {
             $answer->user_avatar = $qiniu->fetch($answer->user_avatar);
