@@ -14,17 +14,17 @@
     <h3>{{$title}}</h3>
     <div class="row clearfix">
 
-        <div class="col-md-4 column">
+        <div class="col-md-6 column">
             <p>百度翻译</p>
             <script id="baidu" style="width:100%;" name="baidu_content" type="text/plain">{!! $baiduContent !!}</script>
         </div>
 
-        <div class="col-md-4 column">
-            <p>有道翻译</p>
-            <script id="youdao" style="width:100%;" name="youdao_content" type="text/plain">{!! $youdaoContent !!}</script>
-        </div>
+{{--        <div class="col-md-4 column">--}}
+{{--            <p>有道翻译</p>--}}
+{{--            <script id="youdao" style="width:100%;" name="youdao_content" type="text/plain">{!! $youdaoContent !!}</script>--}}
+{{--        </div>--}}
 
-        <div class="col-md-4 column">
+        <div class="col-md-6 column">
             <p>原文</p>
             <script id="en" style="width:100%;" name="en_html" type="text/plain">{!! $enContent !!}</script>
         </div>
@@ -40,12 +40,12 @@
         baidu.execCommand('serverparam', '_token', '{{ csrf_token() }}');
     });
 
-    let youdao = UE.getEditor('youdao', {
-        toolbars: [['Source', 'Undo', 'Redo']]
-    });
-    youdao.ready(function () {
-        youdao.execCommand('serverparam', '_token', '{{ csrf_token() }}');
-    });
+    {{--let youdao = UE.getEditor('youdao', {--}}
+    {{--    toolbars: [['Source', 'Undo', 'Redo']]--}}
+    {{--});--}}
+    {{--youdao.ready(function () {--}}
+    {{--    youdao.execCommand('serverparam', '_token', '{{ csrf_token() }}');--}}
+    {{--});--}}
 
     let en = UE.getEditor('en', {
         toolbars: [['Source', 'Undo', 'Redo']]
