@@ -33,8 +33,6 @@ class TranslateBaidu extends Command
             if (!$answer) {
                 return false;
             }
-            //抓取图片到七牛云
-            (new \App\Admin\Repositories\Answers())->replaceImgElement($answer->id);
 
             $question = Questions::where('id', $answer->question_id)->first();
             if (!$question->text_cn) {
