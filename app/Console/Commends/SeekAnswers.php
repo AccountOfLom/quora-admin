@@ -43,9 +43,9 @@ class SeekAnswers extends Command
             ->whereNull('answers.id')
             ->select('questions.id', 'questions.link')
             ->get();
-        if (count($questions) < 10) {
-            return false;
-        }
+//         if (count($questions) < 10) {
+//             return false;
+//         }
         $currentQuestion = current($questions->toArray());
 
         $nodePort = env('NODE_HTTP_PORT');
