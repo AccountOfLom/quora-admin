@@ -37,19 +37,24 @@ class SeekAnswers extends Command
      */
     public function handle()
     {
-        //查回答数不足５的问题
-        $questions = DB::table('questions')
+        $question = DB::table('questions')
             ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
-            ->whereNull('answers.id')
-            ->select('questions.id', 'questions.link')
-            ->get();
-//         if (count($questions) < 10) {
-//             return false;
-//         }
-        $currentQuestion = current($questions->toArray());
+            ->select('questions.id', 'questions.link', DB::raw('count(*) as answers_count'))
+            ->groupBy('questions.id')
+            ->having('answers_count', '<', 10)  //回答数少于10个的问题，继续爬取回答
+            ->orderBy('id', 'desc')
+            ->orderBy('seek_answers_time')   //  seek_answers_time 最后爬取时间
+            ->first();
+
+        if (!$question) {
+            return true;
+        }
+
+        //更新最新爬取时间
+        DB::table('questions')->where('id', $question->id)->update(['seek_answers_time' => time()]);
 
         $nodePort = env('NODE_HTTP_PORT');
-        $url = '127.0.0.1:' . $nodePort . '/answers?question_id=' . $currentQuestion->id . '&question=' . $currentQuestion->link;
+        $url = '127.0.0.1:' . $nodePort . '/answers?question_id=' . $question->id . '&question=' . $question->link;
         $request = new \GuzzleHttp\Psr7\Request('GET', $url);
         $promise = (new Client())->sendAsync($request)->then(function ($response) {
             echo 'I completed! ' . $response->getBody();
