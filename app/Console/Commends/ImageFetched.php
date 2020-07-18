@@ -26,11 +26,17 @@ class ImageFetched extends Command
     public function handle()
     {
         $answer = Answers::where('image_fetched', 0)->orderBy('id', 'desc')->first();
-        if (!$answer) {
-            return true;
-        }
-        $answer->content = preg_replace('/class="(.*?)"/', '', $answer->content); //删除class
-        $answer->content = preg_replace('/<a .*?a>/is', '', $answer->content); //删除a链接
+        $content = $answer->content;
+        $content = preg_replace('/class="(.*?)"/', '', $content); //删除class
+        $content = preg_replace('/style="(.*?)"/', '', $content); //删除style
+        $content = preg_replace('/<a .*?a>/is', '', $content); //删除a链接
+        $content = str_replace(['<p >', '< p>', '<p  >', '<P   >'], '<p>', $content);
+        $content = str_replace(['<span >', '< span>', '<span  >', '<span   >'], '<span>', $content);
+        $content = str_replace(['<div >', '< div>', '<div  >', '<div   >'], '<div>', $content);
+        $content = str_replace(['<ol >', '< ol>', '<ol  >', '<ol   >'], '<ol>', $content);
+        $content = str_replace(['<ul >', '< ul>', '<ul  >', '<ul   >'], '<ul>', $content);
+        $content = str_replace([' />', '  />'], '/>', $content);
+        $answer->content = $content;
         $qiniu = new Qiniu();
         if (strpos($answer->user_avatar, env('QINIU_DOMAIN')) === false) {
             $answer->user_avatar = $qiniu->fetch($answer->user_avatar);
