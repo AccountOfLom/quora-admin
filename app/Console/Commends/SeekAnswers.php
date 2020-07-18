@@ -42,8 +42,8 @@ class SeekAnswers extends Command
             ->select('questions.id', 'questions.link', DB::raw('count(*) as answers_count'))
             ->groupBy('questions.id')
             ->having('answers_count', '<', 10)  //回答数少于10个的问题，继续爬取回答
-            ->orderBy('id', 'desc')
             ->orderBy('seek_answers_time')   //  seek_answers_time 最后爬取时间
+            ->orderBy('id', 'desc')
             ->first();
 
         if (!$question) {
