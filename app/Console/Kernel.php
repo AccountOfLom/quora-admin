@@ -33,11 +33,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('seek-questions')->everyTenMinutes();   //根据话题爬取问题   １０分钟／1次
-        $schedule->command('seek-answers')->everyTenMinutes();   //根据问题爬取回答   １０分钟／1次
-        $schedule->command('translate-baidu')->everyMinute();   //翻译回答   １分钟／1次
-//        $schedule->command('translate-youdao')->everyMinute();   //翻译回答   １分钟／1次
-        $schedule->command('image-fetched')->everyMinute();   //抓取图片到七牛云   １分钟／1次
+        $schedule->command('seek-questions')->everyTenMinutes()->between('02:00', '07:30');   //根据话题爬取问题   １０分钟／1次
+        $schedule->command('seek-answers')->everyTenMinutes()->between('02:00', '08:00');   //根据问题爬取回答   １０分钟／1次
+        $schedule->command('translate-baidu')->everyMinute()->between('02:00', '10:00');   //翻译回答   １分钟／1次
+//        $schedule->command('translate-youdao')->everyMinute()->between('02:00', '10:00');   //翻译回答   １分钟／1次
+        $schedule->command('image-fetched')->everyMinute()->between('02:00', '10:00');   //抓取图片到七牛云   １分钟／1次
     }
 
     /**
