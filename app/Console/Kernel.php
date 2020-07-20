@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('seek-questions')->everyTenMinutes()->between('02:00', '07:30');   //根据话题爬取问题   １０分钟／1次
+        $schedule->command('seek-questions')->cron('13 * * * *')->between('02:00', '07:30');   //根据话题爬取问题   １3分钟／1次 为了启动chrome与爬取回答的时间错开，减轻内存压力
         $schedule->command('seek-answers')->everyTenMinutes()->between('02:00', '08:00');   //根据问题爬取回答   １０分钟／1次
         $schedule->command('translate-baidu')->everyMinute()->between('02:00', '10:00');   //翻译回答   １分钟／1次
 //        $schedule->command('translate-youdao')->everyMinute()->between('02:00', '10:00');   //翻译回答   １分钟／1次
