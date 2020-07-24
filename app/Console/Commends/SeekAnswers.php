@@ -39,9 +39,10 @@ class SeekAnswers extends Command
     {
         $question = DB::table('questions')
             ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
-            ->select('questions.id', 'questions.link', DB::raw('count(*) as answers_count'))
+            ->select('questions.id', 'questions.link', 'questions.text_cn', DB::raw('count(*) as answers_count'))
             ->groupBy('questions.id')
             ->having('answers_count', '<', 10)  //回答数少于10个的问题，继续爬取回答
+            ->whereNull('questions.text_cn')
             ->orderBy('seek_answers_time')   //  seek_answers_time 最后爬取时间
             ->orderBy('id', 'desc')
             ->first();
